@@ -32,6 +32,7 @@
 </div>
 
 
+## Patch to make flameshot synchrone without dbus in a standalone app.
 
 ## Preview
 
@@ -63,6 +64,7 @@
 - [Contribute](#contribute)
 - [Donations](#donations)
 - [Acknowledgment](#acknowledgment)
+O:q
 
 ## Features
 
