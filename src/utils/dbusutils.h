@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "src/cli/commandlineparser.h"
+//#include "src/cli/commandlineparser.h"
 #include <QDBusConnection>
 #include <QObject>
 

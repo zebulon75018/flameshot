@@ -27,6 +27,7 @@ ConfigHandler::ConfigHandler(){
 
 QVector<CaptureButton::ButtonType> ConfigHandler::getButtons() {
     QVector<CaptureButton::ButtonType> buttons;
+    /*
     if (m_settings.contains(QStringLiteral("buttons"))) {
         // TODO: remove toList in v1.0
         QVector<int> buttonsInt =
@@ -37,6 +38,7 @@ QVector<CaptureButton::ButtonType> ConfigHandler::getButtons() {
         }
         buttons = fromIntToButton(buttonsInt);
     } else {
+    */
         // Default tools
         buttons << CaptureButton::TYPE_PENCIL
                 << CaptureButton::TYPE_DRAWER
@@ -53,17 +55,19 @@ QVector<CaptureButton::ButtonType> ConfigHandler::getButtons() {
                 << CaptureButton::TYPE_COPY
                 << CaptureButton::TYPE_SAVE
                 << CaptureButton::TYPE_EXIT
-                << CaptureButton::TYPE_IMAGEUPLOADER
+                //<< CaptureButton::TYPE_IMAGEUPLOADER
                 << CaptureButton::TYPE_OPEN_APP
                 << CaptureButton::TYPE_PIN
                 << CaptureButton::TYPE_TEXT;
-    }
+    //}
 
+    /*
     using bt = CaptureButton::ButtonType;
     std::sort(buttons.begin(), buttons.end(), [](bt a, bt b){
         return CaptureButton::getPriorityByButton(a) <
                 CaptureButton::getPriorityByButton(b);
     });
+    */
     return buttons;
 }
 
@@ -178,9 +182,10 @@ void ConfigHandler::setDrawColor(const QColor &c) {
 
 bool ConfigHandler::showHelpValue() {
     bool res = true;
+    /* CVADD
     if (m_settings.contains(QStringLiteral("showHelp"))) {
         res = m_settings.value(QStringLiteral("showHelp")).toBool();
-    }
+    } */
     return res;
 }
 
@@ -306,10 +311,11 @@ void ConfigHandler::setStartupLaunch(const bool start) {
 
 int ConfigHandler::contrastOpacityValue() {
     int opacity = 190;
+    /* CVADD
     if (m_settings.contains(QStringLiteral("contrastOpacity"))) {
         opacity = m_settings.value(QStringLiteral("contrastOpacity")).toInt();
         opacity = qBound(0, opacity, 255);
-    }
+    } */
     return opacity;
 }
 
@@ -339,10 +345,12 @@ void ConfigHandler::setDefaults() {
 
 void ConfigHandler::setAllTheButtons() {
     QVector<int> buttons;
+    /*
     auto listTypes = CaptureButton::getIterableButtonTypes();
     for (const CaptureButton::ButtonType t: listTypes) {
         buttons << static_cast<int>(t);
     }
+    */
     // TODO: remove toList in v1.0
     m_settings.setValue(QStringLiteral("buttons"), QVariant::fromValue(buttons.toList()));
 }
@@ -352,6 +360,7 @@ QString ConfigHandler::configFilePath() const {
 }
 
 bool ConfigHandler::normalizeButtons(QVector<int> &buttons) {
+    /*
     auto listTypes = CaptureButton::getIterableButtonTypes();
     QVector<int> listTypesInt;
     for(auto i: listTypes)
@@ -365,6 +374,7 @@ bool ConfigHandler::normalizeButtons(QVector<int> &buttons) {
         }
     }
     return hasChanged;
+    */
 }
 
 QVector<CaptureButton::ButtonType> ConfigHandler::fromIntToButton(

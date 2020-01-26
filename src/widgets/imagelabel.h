@@ -13,7 +13,8 @@
 //     GNU General Public License for more details.
 //
 //     You should have received a copy of the GNU General Public License
-//     along with Flameshot.  If not, see <http://www.gnu.org/licenses/>.
+//     along with
+//Flameshot.  If not, see <http://www.gnu.org/licenses/>.
 
 // This code is a modified version of the KDE software Spectacle
 // /src/Gui/KSImageWidget.h commit cbbd6d45f6426ccbf1a82b15fdf98613ccccbbe9

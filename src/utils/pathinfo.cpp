@@ -33,11 +33,14 @@ QStringList PathInfo::translationsPaths() {
             .absoluteFilePath();
     QString trPath = QDir::toNativeSeparators(binaryPath + "/translations") ;
 #if defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    /*
     return QStringList()
             << QStringLiteral(APP_PREFIX) + "/share/flameshot/translations"
             << trPath
             << QStringLiteral("/usr/share/flameshot/translations")
             << QStringLiteral("/usr/local/share/flameshot/translations");
+            */
+    return QStringList();
 #elif defined(Q_OS_WIN)
     return QStringList()
             << trPath;

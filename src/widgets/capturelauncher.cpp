@@ -16,10 +16,12 @@
 //     along with Flameshot.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "capturelauncher.h"
-#include "src/core/controller.h"
+//#include "src/core/controller.h"
 #include "src/widgets/imagelabel.h"
 #include "src/widgets/notificationwidget.h"
 #include "src/utils/screengrabber.h"
+#include "src/widgets/capture/capturewidget.h"
+
 #include <QCheckBox>
 #include <QPushButton>
 #include <QGridLayout>
@@ -38,11 +40,11 @@ CaptureLauncher::CaptureLauncher(QWidget *parent) :
     QWidget(parent), m_id(0)
 {
     setAttribute(Qt::WA_DeleteOnClose);
-    connect(Controller::getInstance(), &Controller::captureTaken,
+    /*connect(Controller::getInstance(), &Controller::captureTaken,
             this, &CaptureLauncher::captureTaken);
     connect(Controller::getInstance(), &Controller::captureFailed,
             this, &CaptureLauncher::captureFailed);
-
+    */
     m_imageLabel = new ImageLabel(this);
     bool ok;
     m_imageLabel->setScreenshot(ScreenGrabber().grabEntireDesktop(ok));
@@ -61,9 +63,11 @@ CaptureLauncher::CaptureLauncher(QWidget *parent) :
     m_captureType = new QComboBox();
     m_captureType->setMinimumWidth(240);
     // TODO remember number
-    m_captureType->insertItem(1, tr("Rectangular Region"), CaptureRequest::GRAPHICAL_MODE);
+    /* CVADD
+     * m_captureType->insertItem(1, tr("Rectangular Region"), CaptureRequest::GRAPHICAL_MODE);
     m_captureType->insertItem(2, tr("Full Screen (All Monitors)"), CaptureRequest::FULLSCREEN_MODE);
-    //m_captureType->insertItem(3, tr("Single Screen"), CaptureRequest::SCREEN_MODE);
+    */
+//m_captureType->insertItem(3, tr("Single Screen"), CaptureRequest::SCREEN_MODE);
 
     m_delaySpinBox = new QSpinBox();
     m_delaySpinBox->setSingleStep(1.0);
@@ -107,11 +111,14 @@ CaptureLauncher::CaptureLauncher(QWidget *parent) :
 // HACK: https://github.com/KDE/spectacle/blob/fa1e780b8bf3df3ac36c410b9ece4ace041f401b/src/Gui/KSMainWindow.cpp#L70
 void CaptureLauncher::startCapture() {
     hide();
+    CaptureWidget *cw =new CaptureWidget();
+    /*
     auto mode = static_cast<CaptureRequest::CaptureMode>(
                 m_captureType->currentData().toInt());
     CaptureRequest req(mode, 600 + m_delaySpinBox->value() * 1000);
     m_id = req.id();
     Controller::getInstance()->requestCapture(req);
+    */
 }
 
 void CaptureLauncher::startDrag() {

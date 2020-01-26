@@ -31,7 +31,7 @@
 #include "src/utils/screengrabber.h"
 #include "src/utils/systemnotification.h"
 #include "src/utils/screenshotsaver.h"
-#include "src/core/controller.h"
+//#include "src/core/controller.h"
 #include "src/widgets/capture/modificationcommand.h"
 #include <QUndoView>
 #include <QScreen>
@@ -43,6 +43,8 @@
 #include <QMouseEvent>
 #include <QBuffer>
 #include <QDesktopWidget>
+
+#include <QDebug>
 
 // CaptureWidget is the main component used to capture the screen. It contains an
 // are of selection with its respective buttons.
@@ -69,40 +71,26 @@ CaptureWidget::CaptureWidget(const uint id, const QString &savePath,
     initContext(savePath, fullScreen);
     initShortcuts();
 
-#ifdef Q_OS_WIN
-    // Top left of the whole set of screens
-    QPoint topLeft(0,0);
-#endif
+    qDebug() << " CaptureWidget";
     if (fullScreen) {
         // Grab Screenshot
         bool ok = true;
         m_context.screenshot = ScreenGrabber().grabEntireDesktop(ok);
+        qDebug() <<  m_context.screenshot;
         if(!ok) {
-            SystemNotification().sendMessage(tr("Unable to capture screen"));
-            this->close();
+            //SystemNotification().sendMessage(tr("Unable to capture screen"));
+            //this->close();
         }
         m_context.origScreenshot = m_context.screenshot;
 
-#ifdef Q_OS_WIN
-        setWindowFlags(Qt::WindowStaysOnTopHint
-                       | Qt::FramelessWindowHint
-                       | Qt::Popup);
-
-        for (QScreen *const screen : QGuiApplication::screens()) {
-            QPoint topLeftScreen = screen->geometry().topLeft();
-            if (topLeft.x() > topLeftScreen.x() ||
-                    topLeft.y() > topLeftScreen.y()) {
-                topLeft = topLeftScreen;
-            }
-        }
-        move(topLeft);
-#else
         setWindowFlags(Qt::BypassWindowManagerHint
                        | Qt::WindowStaysOnTopHint
                        | Qt::FramelessWindowHint
                        | Qt::Tool);
-#endif
-        resize(pixmap().size());
+
+        qDebug() <<pixmap().size();
+        setFixedSize(pixmap().size());
+       // showNormal();
     }
     // Create buttons
     m_buttonHandler = new ButtonHandler(this);
@@ -111,9 +99,7 @@ CaptureWidget::CaptureWidget(const uint id, const QString &savePath,
     if (m_context.fullscreen) {
         for (QScreen *const screen : QGuiApplication::screens()) {
             QRect r = screen->geometry();
-#ifdef Q_OS_WIN
-            r.moveTo(r.topLeft() - topLeft);
-#endif
+
             areas.append(r);
         }
     } else {
@@ -152,13 +138,17 @@ CaptureWidget::~CaptureWidget() {
 // redefineButtons retrieves the buttons configured to be shown with the
 // selection in the capture
 void CaptureWidget::updateButtons() {
+
     m_uiColor = m_config.uiMainColorValue();
     m_contrastUiColor = m_config.uiContrastColorValue();
 
+    qDebug() << "before getButtons";
     auto buttons = m_config.getButtons();
     QVector<CaptureButton*> vectorButtons;
 
-    for (const CaptureButton::ButtonType &t: buttons) {
+    for (const CaptureButton::ButtonType &t: buttons)
+    {
+
         CaptureButton *b = new CaptureButton(t, this);
         if (t == CaptureButton::TYPE_SELECTIONINDICATOR) {
             m_sizeIndButton = b;
@@ -172,6 +162,7 @@ void CaptureWidget::updateButtons() {
         vectorButtons << b;
     }
     m_buttonHandler->setButtons(vectorButtons);
+
 }
 
 QPixmap CaptureWidget::pixmap() {
